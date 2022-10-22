@@ -55,9 +55,7 @@ def run_nora():
         print(info)
         talk(info)
 
-    elif 'weather' in query:
-        api_key =
-
+    
 
 
 while True:
