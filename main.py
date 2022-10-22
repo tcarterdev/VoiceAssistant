@@ -8,8 +8,8 @@ import time
 import python_weather
 import asyncio
 import os
-
-
+import requests
+import webbrowser
 
 listener = sr.Recognizer()
 engine = pyttsx3.init()
@@ -55,11 +55,32 @@ def run_nora():
         print(info)
         talk(info)
 
-    
+    elif 'weather' in command:
+        api_key = '1f16f47251d11ce0d8fc5b04733150e6'
+        base_url = "http://api.openweathermap.org / data / 2.5 / weather?"
+        city_name = take_command()
+        talk(city_name)
+        complete_url = base_url + "appid =" + api_key + "&q =" + city_name
+        response = requests.get(complete_url)
+        x = response.json()
+
+        if x["code"] != "404":
+                y = x["main"]
+                current_temp = y["temp"]
+                current_press = y["pressure"]
+                current_humid = y["humidity"]
+                z = x["weather"]
+                weather_description = z[0] ["description"]
+                print(" Temperature (in kelvin unit) = " +str(current_temp)+"\n atmospheric pressure (in hPa unit) ="+str(current_press) +"\n humidity (in percentage) = " +str(current_humid) +"\n description = " +str(weather_description))
+        else:
+            talk("City not found")
+
+    elif 'open google' in command:
+        webbrowser.open("google.com")
+
+    elif 'open you tube' in command:
+        webbrowser.open("youtube.com")
 
 
 while True:
     run_nora()
-
-
-run_nora()
